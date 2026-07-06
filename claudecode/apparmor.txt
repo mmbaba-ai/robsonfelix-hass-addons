@@ -39,8 +39,8 @@ profile claudecode flags=(attach_disconnected,mediate_deleted) {
   /usr/local/** ixr,
   /usr/libexec/** ixr,
 
-  # Add-on data
-  /data/** rwk,
+  # Add-on data (rwkixm: write+lock for npm installs, execute+mmap for binaries in /data/npm-global/)
+  /data/** rwkixm,
 
   # Home Assistant config - main working directory
   /homeassistant/ r,

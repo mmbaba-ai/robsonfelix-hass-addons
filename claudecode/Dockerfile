@@ -134,8 +134,8 @@ EOF
 # Ensure .bashrc is sourced for login shells too
 RUN echo 'source ~/.bashrc' > /root/.profile
 
-# Set up PATH
-ENV PATH="/root/.local/bin:${PATH}"
+# Set up PATH — /data/npm-global/bin is prepended so auto-updated Claude takes precedence
+ENV PATH="/data/npm-global/bin:/root/.local/bin:${PATH}"
 
 # Set working directory
 WORKDIR /homeassistant
@@ -232,7 +232,7 @@ CMD ["/bin/bash", "-c", "\
   AUTO_UPDATE=$(jq -r '.auto_update_claude // true' /data/options.json) && \
   if [ \"$AUTO_UPDATE\" = \"true\" ]; then \
     echo '[INFO] Checking for Claude Code updates...' && \
-    npm update -g @anthropic-ai/claude-code 2>/dev/null || echo '[WARN] Update check failed, continuing...'; \
+    npm install -g --prefix /data/npm-global @anthropic-ai/claude-code 2>/dev/null || echo '[WARN] Update check failed, continuing...'; \
   fi && \
   claude mcp remove homeassistant -s user 2>/dev/null || true && \
   claude mcp remove playwright -s user 2>/dev/null || true && \
