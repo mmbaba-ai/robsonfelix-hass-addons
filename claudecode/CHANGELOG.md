@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.66] - 2026-08-10
+
+### Fixed
+- Removed invalid `Glob(/homeassistant/**)`, `Glob(/config/**)`, `Grep(/homeassistant/**)`, `Grep(/config/**)` entries from the auto-generated Home Assistant MCP permissions.allow list in settings.json. These path-scoped Glob/Grep allow rules are not honored by current Claude Code versions (only `Read(path)` rules gate file-reading tools, which already cover Glob/Grep) and triggered a startup warning as of 2.1.227. This only became visible once auto-update was fixed in 1.2.65 — the add-on had been stuck on 2.1.201, which did not emit this warning.
+
 ## [1.2.65] - 2026-08-10
 
 ### Fixed
