@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.65] - 2026-08-10
+
+### Fixed
+- Auto-updated Claude Code was never actually used: tmux (via session_persistence) starts its inner shell as a login shell by default, and Alpine's /etc/profile resets PATH for login shells, wiping out the /data/npm-global/bin prepend set by Dockerfile ENV PATH. The npm install into /data/npm-global was succeeding every start, but 'claude' on PATH kept resolving to the stale image-baked /usr/local/bin/claude.
+- Re-assert PATH in /root/.bashrc (sourced by both login and non-login shells) so the auto-updated binary in /data/npm-global/bin always takes precedence.
+
 ## [1.2.63] - 2026-02-23
 
 ### Fixed
